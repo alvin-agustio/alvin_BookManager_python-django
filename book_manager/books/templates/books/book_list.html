@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+<!-- mengambil & extend dasar html (base.html) -->
+
+{% block title %}Daftar Buku{% endblock %}
+
+{% block content %}
+<h1>Daftar Buku</h1>
+
+<!-- form buat mencari buku -->
+<form method="get">
+    <input type="text" name="search" placeholder="Cari berdasarkan judul atau penulis">
+    <button type="submit">Cari</button>
+
+    {% if request.GET.search %}
+        <button type="button" onclick="window.location.href='/books/';">Kembali</button>
+    {% endif %}
+</form>
+
+<!-- tabel buat display daftar buku -->
+<table>
+    <thead>
+        <tr>
+            <th>Judul</th>
+            <th>Penulis</th>
+            <th>Tanggal Terbit</th>
+            <th>Genre</th>
+            <th>Aksi</th>
+        </tr>
+    </thead>
+    <!-- looping buat menampilkan daftar buku -->
+    <tbody>
+        {% for book in books %}
+        <tr>
+            <td>{{ book.title }}</td>
+            <td>{{ book.author }}</td>
+            <td>{{ book.published_date }}</td>
+            <td>{{ book.genre }}</td>
+            <td>
+                <!-- tombol edit & delete -->
+                <a href="{% url 'book_edit' book.id %}" class="btn-edit">Edit</a>
+                <a href="{% url 'book_delete' book.id %}" class="btn-delete">Hapus</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- paginasi buat navigasi antar halaman -->
+{% if is_paginated %}
+<div class="pagination">
+    <!-- tombol back -->
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}" class="pagination-btn prev">Sebelumnya</a>
+    {% endif %}
+
+    <!-- info halaman -->
+    <span class="page-info">Halaman {{ page_obj.number }} dari {{ page_obj.paginator.num_pages }}</span>
+    
+    <!-- tombol next -->
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="pagination-btn next">Berikutnya</a>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

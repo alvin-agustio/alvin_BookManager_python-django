@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+<!-- mengambil & extend dasar html (base.html) -->
+
+{% block title %}Tambah Buku{% endblock %}
+
+{% block content %}
+<h1>Tambah Buku</h1>
+<form method="post">
+    <!-- csrf agar formulir-nya aman -->
+    {% csrf_token %}
+    <!-- untuk nampilin form yang dikasih sebagai paragraf atau <p> -->
+    {{ form.as_p }}
+    <button type="submit">Simpan</button>
+</form>
+{% endblock %}

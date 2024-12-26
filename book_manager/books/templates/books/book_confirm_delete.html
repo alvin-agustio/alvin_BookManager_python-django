@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+<!-- mengambil & extend dasar html (base.html) -->
+
+{% block title %}Konfirmasi Penghapusan{% endblock %}
+
+{% block content %}
+<h1>Konfirmasi Penghapusan</h1>
+<p class="teks_hapus">Apakah Anda yakin ingin menghapus buku "{{ book.title }}"?</p>
+<form method="post">
+    <!-- csrf agar formulir-nya aman -->
+    {% csrf_token %}
+    <button type="submit" class="btn btn-hapus">Hapus</button>
+    <!-- tombol cancel, lalu kembali ke daftar buku -->
+    <button type="button" onclick="window.location.href='{% url 'book_list' %}';">Batal</button>
+</form>
+{% endblock %}
